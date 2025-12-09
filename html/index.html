@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.2.0/css/all.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.0/css/all.css">
+    <link rel="stylesheet" href="./style.css" />
+
+    <!-- ⚙️ DEBUG MODE CONFIGURATION -->
+    <script>
+        // Set to true to enable debug mode (shows menu with sample data)
+        const DEBUG_MODE = false;
+    </script>
+
+    <script src="./script.js" defer></script>
+
+    <!-- Debug Mode Styles -->
+    <style id="debug-styles">
+        body.debug-mode {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            min-height: 100vh;
+        }
+
+        body.debug-mode #container {
+            display: block !important;
+        }
+    </style>
+</head>
+
+<body class="bg-transparent overflow-hidden">
+    <div id="container"
+        class="hidden fixed bottom-[2vh] right-[1vw] h-auto rounded-[0.5vh] px-[0.1vw] pt-[0.5vw] pb-[0.15vw] animate__animated">
+        <div class="title flex flex-row justify-between gap-2.5">
+            <div class="header" id="title"></div>
+            <div class="header flex flex-row gap-2.5">
+                <!-- <div class="select-option">
+                        <div class="item-option">
+                            <i class="fa-light fa-computer-mouse mt-0 mr-[0.3vh] text-[0.85vw] text-white/80"></i>
+                            <div class="item-option-text">Seleccionar</div>
+                        </div>
+                    </div>
+                    <div class="scroll-option">
+                        <div class="item-option">
+                            <i class="fa-light fa-computer-mouse-scrollwheel mt-0 mr-[0.3vh] text-[0.85vw] text-white/80"></i>
+                            <div class="item-option-text">Desplazar</div>
+                        </div>
+                    </div> -->
+
+                <div class="scroll-option">
+                    <div class="item-option flex relative w-[8.5vh] gap-[0.15vw] top-[0.5vh] right-[0.3vw]">
+                        <i class="fa-solid fa-arrows-up-down mt-0 mr-[0.3vh] text-[0.85vw] text-white/50"></i>
+                        <div class="item-option-text text-[1vh] font-['Nunito'] text-white/50">Desplazar</div>
+                    </div>
+                </div>
+                <div class="select-option">
+                    <div class="item-option flex relative w-[8.5vh] gap-[0.15vw] top-[0.5vh] right-[0.3vw]">
+                        <i class="fa-solid fa-arrow-turn-down-left mt-0 mr-[0.3vh] text-[0.85vw] text-white/50"></i>
+                        <div class="item-option-text text-[1vh] font-['Nunito'] text-white/50">Seleccionar</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="buttons"
+            class="max-h-[86vh] min-w-[20vw] max-w-[40vw] overflow-x-hidden overflow-y-auto p-[1vh] mt-[0.4vh]"></div>
+    </div>
+
+    <!-- 🐛 DEBUG MODE SCRIPT -->
+    <script>
+        if (DEBUG_MODE) {
+            console.log('🐛 DEBUG MODE ENABLED');
+            document.body.classList.add('debug-mode');
+
+            // Sample menu data for testing
+            const debugMenuData = [
+                {
+                    isMenuHeader: true,
+                    header: "Menú de Prueba"
+                },
+                {
+                    header: "Opción 1",
+                    txt: "Esta es la primera opción del menú",
+                    icon: "fa-solid fa-user",
+                    params: { action: 'option1' }
+                },
+                {
+                    header: "Opción 2",
+                    txt: "Esta es la segunda opción",
+                    icon: "fa-solid fa-car",
+                    params: { action: 'option2' }
+                },
+                {
+                    header: "Opción 3",
+                    txt: "Esta es la tercera opción",
+                    icon: "fa-solid fa-home",
+                    params: { action: 'option3' }
+                },
+                {
+                    header: "Opción con Icono Largo",
+                    txt: "Texto descriptivo más largo para probar el diseño",
+                    icon: "fa-solid fa-shopping-cart",
+                    params: { action: 'option4' }
+                },
+                {
+                    header: "Opción Deshabilitada",
+                    txt: "Esta opción no está disponible",
+                    icon: "fa-solid fa-lock",
+                    disabled: true,
+                    params: { action: 'option5' }
+                },
+                {
+                    header: "Otra Opción",
+                    txt: "Para probar el scroll",
+                    icon: "fa-solid fa-cog",
+                    params: { action: 'option6' }
+                },
+                {
+                    header: "Más Opciones",
+                    txt: "Seguimos probando",
+                    icon: "fa-solid fa-star",
+                    params: { action: 'option7' }
+                }
+            ];
+
+            // Wait for DOM and script.js to load
+            $(document).ready(function () {
+                setTimeout(() => {
+                    // Trigger the menu open event
+                    window.dispatchEvent(new MessageEvent('message', {
+                        data: {
+                            action: 'OPEN_MENU',
+                            data: debugMenuData
+                        }
+                    }));
+
+                    // Add click handlers for testing
+                    $(document).on('click', '.button:not(.disabled)', function () {
+                        const id = $(this).attr('id');
+                        console.log('🖱️ Clicked button:', id);
+
+                        $('.button').removeClass('button-selected');
+                        $(this).addClass('button-selected');
+                    });
+
+                    // Keyboard navigation for testing
+                    $(document).on('keydown', function (e) {
+                        if (e.key === 'ArrowUp') {
+                            e.preventDefault();
+                            window.dispatchEvent(new MessageEvent('message', {
+                                data: { action: 'UP_MENU' }
+                            }));
+                        } else if (e.key === 'ArrowDown') {
+                            e.preventDefault();
+                            window.dispatchEvent(new MessageEvent('message', {
+                                data: { action: 'DOWN_MENU' }
+                            }));
+                        } else if (e.key === 'Enter') {
+                            e.preventDefault();
+                            window.dispatchEvent(new MessageEvent('message', {
+                                data: { action: 'CLICK_MENU' }
+                            }));
+                            console.log('✅ Selected button');
+                        }
+                    });
+
+                    console.log('✅ Debug menu loaded. Use Arrow Keys to navigate, Enter to select, ESC to close');
+                }, 100);
+            });
+        }
+    </script>
+</body>
+
+</html>
