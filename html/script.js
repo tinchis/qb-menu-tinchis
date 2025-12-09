@@ -12,8 +12,41 @@ selectSound.volume = 0.2;
 const selectButton = (id) => {
     currentButton = id;
     $('.button').removeClass('button-selected');
-    $(`#${id}`).addClass('button-selected');
-    var offset = $(`#${id}`).position().top;
+    $('.button').css({
+        'background': '',
+        'color': ''
+    });
+    $('.button .icon').css({
+        'background': '',
+        'outline-color': ''
+    });
+    $('.button .icon i').css({
+        'color': '#A0A0A0'
+    });
+    $('.button .header').css({
+        'color': '',
+        'font-weight': '500'
+    });
+
+    const selectedBtn = $(`#${id}`);
+    selectedBtn.addClass('button-selected');
+    selectedBtn.css({
+        'background': '#312F2D',
+        'color': 'rgb(255, 255, 255)'
+    });
+    selectedBtn.find('.icon').css({
+        'background': 'rgba(22, 151, 139, 0.1)',
+        'outline-color': '#16978B'
+    });
+    selectedBtn.find('.icon i').css({
+        'color': '#16978B'
+    });
+    selectedBtn.find('.header').css({
+        'color': '#16978B',
+        'font-weight': '500'
+    });
+
+    var offset = selectedBtn.position().top;
     $('#buttons').scrollTop(offset);
 };
 
@@ -57,11 +90,16 @@ const openMenu = (data = null) => {
 
 const getButtonRender = (header, message = null, id, isMenuHeader, isDisabled, icon) => {
     return `
-        <div class="button ${isDisabled ? "disabled" : ""}" id="${id}">
-            <div class="icon flex items-center relative justify-center"> <img src=nui://${icon} width=30px onerror="this.onerror=null; this.remove();"> <i class="${icon}" onerror="this.onerror=null; this.remove();"></i> </div>
-            <div class="column flex flex-col">
-            <div class="header"> ${header}</div>
-            ${message ? `<div class="text">${message}</div>` : ""}
+        <div class="button w-full px-6 py-4 bg-zinc-900 border-b-[0.50px] border-zinc-800 flex justify-start items-center gap-4 transition-all duration-[250ms] ${isDisabled ? "opacity-20" : ""}" id="${id}">
+            <div class="icon p-2 bg-zinc-800 rounded-md outline outline-[0.50px] outline-offset-[-0.50px] outline-neutral-700 flex justify-start items-center gap-2.5 overflow-hidden">
+                <div class="w-5 h-5 relative overflow-hidden flex items-center justify-center">
+                    <img src="nui://${icon}" width="20" class="block" onerror="this.onerror=null; this.remove();">
+                    <i class="${icon} text-base" style="color: #A0A0A0;" onerror="this.onerror=null; this.remove();"></i>
+                </div>
+            </div>
+            <div class="column flex flex-col gap-0.5 flex-1">
+                <div class="header justify-start text-white text-sm font-medium font-['IBM_Plex_Mono'] uppercase">${header}</div>
+                ${message ? `<div class="text justify-start text-neutral-400 text-xs font-normal font-['IBM_Plex_Mono']">${message}</div>` : ""}
             </div>
         </div>
     `;
@@ -90,14 +128,17 @@ const updateMenu = (option, key, value) => {
             break;
         case 'icon':
             $opt.find('.icon').html(
-                `<i class="${value}" onerror="this.onerror=null; this.remove();"></i>`
+                `<div class="w-6 h-6 relative overflow-hidden flex items-center justify-center">
+                    <img src="nui://${value}" width="22" class="block" onerror="this.onerror=null; this.remove();">
+                    <i class="${value} text-base" style="color: #A0A0A0;" onerror="this.onerror=null; this.remove();"></i>
+                </div>`
             );
             break;
         case 'disabled':
             if (value) {
-                $opt.addClass('disabled');
+                $opt.addClass('opacity-40');
             } else {
-                $opt.removeClass('disabled');
+                $opt.removeClass('opacity-40');
             }
             break;
         case 'hidden':
@@ -113,11 +154,15 @@ const updateMenu = (option, key, value) => {
 };
 
 const postData = (id) => {
-    const selectIcon = document.querySelector('.select-option i');
-    selectIcon.classList.add('click');
-    setTimeout(() => {
-        selectIcon.classList.remove('click');
-    }, 250);
+    const selectIcon = document.querySelector('.select-option');
+    if (selectIcon) {
+        selectIcon.style.background = '#16978B';
+        selectIcon.style.borderColor = '#16978B';
+        setTimeout(() => {
+            selectIcon.style.background = '';
+            selectIcon.style.borderColor = '';
+        }, 250);
+    }
     $.post(`https://${GetParentResourceName()}/clickedButton`, JSON.stringify(parseInt(id) + 1));
     selectSound.currentTime = 0;
     selectSound.play();
@@ -131,11 +176,15 @@ const cancelMenu = () => {
 };
 
 const scrollicon = () => {
-    const scrollIcon = document.querySelector('.scroll-option i');
-    scrollIcon.classList.add('scroll');
-    setTimeout(() => {
-        scrollIcon.classList.remove('scroll');
-    }, 250);
+    const scrollIcon = document.querySelector('.scroll-option');
+    if (scrollIcon) {
+        scrollIcon.style.background = '#16978B';
+        scrollIcon.style.borderColor = '#16978B';
+        setTimeout(() => {
+            scrollIcon.style.background = '';
+            scrollIcon.style.borderColor = '';
+        }, 250);
+    }
 }
 
 const upMenu = () => {
