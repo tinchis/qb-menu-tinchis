@@ -31,7 +31,7 @@ const selectButton = (id) => {
     const selectedBtn = $(`#${id}`);
     selectedBtn.addClass('button-selected');
     selectedBtn.css({
-        'background': '#312F2D',
+        'background': '#1e1e1e',
         'color': 'rgb(255, 255, 255)'
     });
     selectedBtn.find('.icon').css({
@@ -90,8 +90,8 @@ const openMenu = (data = null) => {
 
 const getButtonRender = (header, message = null, id, isMenuHeader, isDisabled, icon) => {
     return `
-        <div class="button w-full px-6 py-4 bg-zinc-900 border-b-[0.50px] border-zinc-800 flex justify-start items-center gap-4 transition-all duration-[250ms] ${isDisabled ? "opacity-20" : ""}" id="${id}">
-            <div class="icon p-2 bg-zinc-800 rounded-md outline outline-[0.50px] outline-offset-[-0.50px] outline-neutral-700 flex justify-start items-center gap-2.5 overflow-hidden">
+        <div class="button w-full px-6 py-4 bg-zinc-900/30 backdrop-blur-sm border-b-[0.50px] border-zinc-800 flex justify-start items-center gap-4 transition-all duration-[250ms] ${isDisabled ? "opacity-20" : ""}" id="${id}">
+            <div class="icon p-2 bg-zinc-800/50 rounded-md outline outline-[0.50px] outline-offset-[-0.50px] outline-neutral-700 flex justify-start items-center gap-2.5 overflow-hidden">
                 <div class="w-5 h-5 relative overflow-hidden flex items-center justify-center">
                     <img src="nui://${icon}" width="20" class="block" onerror="this.onerror=null; this.remove();">
                     <i class="${icon} text-base" style="color: #A0A0A0;" onerror="this.onerror=null; this.remove();"></i>
