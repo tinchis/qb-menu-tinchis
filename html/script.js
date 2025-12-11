@@ -56,6 +56,7 @@ const resetTitle = () => {
 
 const openMenu = (data = null) => {
     menuOpened = true
+    $('#game-view').addClass('active')
     $("#buttons").html(" ");
     buttonParams = [];
     resetTitle()
@@ -107,6 +108,7 @@ const getButtonRender = (header, message = null, id, isMenuHeader, isDisabled, i
 
 const closeMenu = () => {
     $('#container').addClass('onExit')
+    $('#game-view').removeClass('active')
     menuOpened = false
     setTimeout(() => {
         if (!menuOpened) {
