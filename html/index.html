@@ -114,18 +114,22 @@
         }
 
         #game-view {
-            visibility: hidden;
+            opacity: 0;
             pointer-events: none;
+            transition: opacity 0.1s ease-in-out;
+            will-change: opacity;
         }
 
         #game-view.active {
-            visibility: visible;
+            opacity: 1;
         }
     </style>
 </head>
 
 <body class="bg-transparent overflow-hidden">
-
+    <object id="game-view" type="application/x-cfx-game-view"
+        style="position:fixed; inset:0; width:100%; height:100%; z-index:-9999; pointer-events:none; transform: translateZ(0);">
+    </object>
     <div id="container" class="hidden fixed bottom-[2vh] right-[1vw] h-auto animate__animated rounded-xl overflow-hidden border border-[#333333] 
         bg-black/30 backdrop-blur-lg supports-[backdrop-filter]:bg-black/20 supports-[backdrop-filter]:backdrop-blur-xl
         z-10">
