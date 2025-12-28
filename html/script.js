@@ -81,7 +81,6 @@ const openMenu = (data = null) => {
     if (!$('#title').html()) $('#title').html('Menú')
     menu_length = buttons[0] == 0 ? buttons.length - 1 : buttons.length
     if (!menuFocused) $('#container').css('opacity', '.7')
-    $('#container').removeClass('onExit')
     $("#buttons").html(html);
     selectButton(buttons[0])
     $('#container').show()
@@ -107,15 +106,10 @@ const getButtonRender = (header, message = null, id, isMenuHeader, isDisabled, i
 };
 
 const closeMenu = () => {
-    $('#container').addClass('onExit')
     $('#game-view').removeClass('active')
     menuOpened = false
-    setTimeout(() => {
-        if (!menuOpened) {
-            $('#container').hide()
-            menuFocused = false
-        }
-    }, 2000);
+    $('#container').hide()
+    menuFocused = false
 };
 
 const updateMenu = (option, key, value) => {
